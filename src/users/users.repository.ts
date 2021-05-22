@@ -18,7 +18,11 @@ export class UsersRepository {
 
   async create(user: User): Promise<User> {
     const newUser = new this.userModel(user);
-    return newUser.save();
+    try {
+      return newUser.save();
+    } catch (error) {
+      return error;
+    }
   }
 
   async findOneAndUpdate(

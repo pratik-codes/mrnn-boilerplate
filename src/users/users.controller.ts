@@ -20,7 +20,7 @@ export class UsersController {
   }
 
   @Post('signin')
-  async loginUser(@Body() createUserDto: CreateUserDto) {
+  async loginUser(@Body() createUserDto: CreateUserDto): Promise<User> {
     return this.usersService.loginUser(
       createUserDto.email,
       createUserDto.password,
