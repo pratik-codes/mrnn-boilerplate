@@ -4,10 +4,15 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './schemas/user.schema';
 import { UsersRepository } from './users.repository';
 import * as bcrypt from 'bcrypt';
+import { JwtService } from '@nestjs/jwt';
+import { ErrorResponse, LoginResponse } from './types/reponse.types';
 
 @Injectable()
 export class UsersService {
-  constructor(private readonly usersRepository: UsersRepository) {}
+  constructor(
+    private readonly usersRepository: UsersRepository,
+    private jwtService: JwtService,
+  ) {}
 
   // to get user by id
   async getUserById(userId: string): Promise<User> {
@@ -20,7 +25,11 @@ export class UsersService {
   }
 
   // creating the user
-  async createUser(email: string, password: string): Promise<User> {
+  async createUser(
+    email: string,
+    password: string,
+    name: string,
+  ): Promise<User> {
     const user = await this.usersRepository.findOne({ email });
     if (user) {
       throw new BadRequestException('User already Signed up.');
@@ -30,31 +39,53 @@ export class UsersService {
     // hashing password
     const encryptedPassword = await this.hashPassword(password, salt);
     // saving the user
+    let date = `${new Date()}`;
+    date = date.split('GMT')[0];
     return this.usersRepository.create({
       userId: uuidv4(),
+      name: name,
       email: email,
       encryptedPassword: encryptedPassword,
       salt: salt,
-      createdAt: `${new Date()}`,
+      createdAt: date,
       updatedAt: null,
     });
   }
 
   // authenticating the user
-  async loginUser(email: string, password: string): Promise<any> {
+  async loginUser(
+    email: string,
+    password: string,
+  ): Promise<LoginResponse | ErrorResponse> {
     // getting the user
     const user = await this.usersRepository.findOne({ email });
     if (user) {
       // if correct password
+      // creating payload
+      const payload = {
+        name: user.name,
+        email: user.email,
+      };
+      // generating accessToken
+      const accessToken = await this.jwtService.sign(payload, {
+        secret: 'zxa234s31s434m3uasdasdasda3b463bn383342',
+        expiresIn: '120d',
+      });
+
+      // hashing the password
       const hash = await bcrypt.hash(password, user.salt);
       if (user.encryptedPassword === hash) {
-        return { statusCode: 200, message: 'correct password!' };
+        return {
+          statusCode: 200,
+          message: 'correct password!',
+          data: { accessToken: accessToken },
+        };
       }
       // incorrect password
-      return { statusCode: 400, errorMessage: 'Wrong Password!' };
+      return { statusCode: 400, error: 'Wrong Password!' };
     }
-    // if user is doesn't exists
-    throw new BadRequestException('user already exists.');
+    // id user doesn't exists
+    throw new BadRequestException('user doesnt exists.');
   }
 
   // helper method to hash the user password

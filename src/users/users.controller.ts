@@ -1,8 +1,10 @@
 import { Body, Controller, Get, Param, Patch, Post } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
+import { LoginUserDto } from './dto/loginUser.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 
 import { User } from './schemas/user.schema';
+import { ErrorResponse, LoginResponse } from './types/reponse.types';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -20,10 +22,12 @@ export class UsersController {
   }
 
   @Post('signin')
-  async loginUser(@Body() createUserDto: CreateUserDto): Promise<User> {
+  async loginUser(
+    @Body() loginUserDto: LoginUserDto,
+  ): Promise<LoginResponse | ErrorResponse> {
     return this.usersService.loginUser(
-      createUserDto.email,
-      createUserDto.password,
+      loginUserDto.email,
+      loginUserDto.password,
     );
   }
 
@@ -32,6 +36,7 @@ export class UsersController {
     return this.usersService.createUser(
       createUserDto.email,
       createUserDto.password,
+      createUserDto.name,
     );
   }
 }
