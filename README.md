@@ -1,4 +1,4 @@
-# React-Redux-NestJS-MongoDB-TS-Auth-BoilerPlate+
+# React Redux NestJS MongoDB TS Auth BoilerPlate
 ### Ready to use bolier plate for MERN with Typescipt for any of your project.
 
 ### Steps to run 
