@@ -9,6 +9,7 @@
 
 ### Features
 - Modern Looking UI built with React Typescipt and Tailwind CSS.
+- Redux store implemented with structured design.
 - Backend on NodeJS with NestJS framework in Typescipt.
 - Database: Mongoose
 - Contains UI for Login and Registration.
