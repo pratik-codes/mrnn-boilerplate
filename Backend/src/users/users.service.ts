@@ -82,7 +82,7 @@ export class UsersService {
         };
       }
       // incorrect password
-      return { statusCode: 400, error: 'Wrong Password!' };
+      throw new BadRequestException('Wrong Password!');
     }
     // id user doesn't exists
     throw new BadRequestException('user doesnt exists.');
