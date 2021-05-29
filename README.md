@@ -1,6 +1,13 @@
-# React-Redux-NestJS-MongoDB-TS-Auth-BoilerPlate
+# React-Redux-NestJS-MongoDB-TS-Auth-BoilerPlate+
 ### Ready to use bolier plate for MERN with Typescipt for any of your project.
 
+### Steps to run 
+- Enter frontend and backend both `cd Frontend/Backend` and run `npm install`
+- To run Backend `npm run start:dev`
+- To run Frontend `npm start`
+- Before setup create a mongoDB cluster and add URI in backend.
+
+### Features
 - Modern Looking UI built with React Typescipt and Tailwind CSS.
 - Backend on NodeJS with NestJS framework in Typescipt.
 - Database: Mongoose
