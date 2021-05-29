@@ -11,3 +11,8 @@
 - Robust App with exception handling 
 - Clean and sturcture code and good code practice and app design used. 
 
+### Sign In View
+![Image](https://github.com/pratik-codes/React-Redux-NestJS-MongoDB-TS-Auth-BoilerPlate/blob/main/screenshots/signin.jpeg)
+
+### Sign Up View
+![Image](https://github.com/pratik-codes/React-Redux-NestJS-MongoDB-TS-Auth-BoilerPlate/blob/main/screenshots/Signup.jpeg)
